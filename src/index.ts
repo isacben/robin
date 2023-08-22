@@ -25,7 +25,7 @@ let debug = Text({
 });
 
 load(tiles, robin, guard_img).then(function() {
-  let tileEngine = TileEngine({
+  Globals.tileEngine = TileEngine({
     // tile size
     tilewidth: 32,
     tileheight: 32,
@@ -58,14 +58,11 @@ load(tiles, robin, guard_img).then(function() {
       }
 
       Globals.T += 1;
-      player.move();
+      player.update();
       player.sprite.update();
       // player.control(canvas);
 
-      if (tileEngine.layerCollidesWith('ground', player.sprite)) {
-        Globals.player_on_ground = true;
-      }
-
+      
       bullets.update();
 
       guards.spawn();
@@ -76,7 +73,7 @@ load(tiles, robin, guard_img).then(function() {
     },
     render: function() {
       
-      tileEngine.render();
+      Globals.tileEngine.render();
       player.sprite.render();
       bullets.sprites.forEach(bullet => {
         bullet.render();
