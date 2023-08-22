@@ -1,5 +1,6 @@
 import { Sprite, initKeys, keyPressed, onKey, offKey, imageAssets } from "kontra";
 import * as bullets from "./bullets";
+import * as tilemap from "./tilemap";
 import { Globals } from "./Globals";
 
 import robin from "./img/robin.png";
@@ -10,13 +11,14 @@ let shot = false;
 let friction = 0.85;
 let gravity = 0.2;
 let acc = 0.5;
-let boost = 5.2;
+let boost = 4;
 
 export let landed = false;
 // this is the player
 export let sprite = Sprite({
   x: 64 * 4,
   y: 64 * 4,
+  dy: 0,
   width: 32,
   height: 32,
   anchor: {x: 0.5, y: 0},
@@ -39,21 +41,29 @@ export function update() {
   }
   
   // jump
-  if (keyPressed('z') && Globals.player_on_ground) {
+  if (keyPressed('x') && Globals.player_on_ground) {
     sprite.dy -= boost;
     Globals.player_on_ground = false;
   }
 
-  // check collision up and down
+    // check collision up and down
   if (sprite.dy > 0) {
     Globals.player_on_ground = false;
-    if (Globals.tileEngine.layerCollidesWith('ground', sprite)) {
+
+    if (tilemap.collide_map(sprite, "down")) {
       Globals.player_on_ground = true;
       sprite.dy = 0;
       sprite.y -= (sprite.y + sprite.height) % 8;
     }
-
+  } else if (sprite.dy < 0) {
+      if (tilemap.collide_map(sprite, "up")) {
+        sprite.dy = 0;
+      }
   }
+
+  sprite.x += sprite.dx;
+  sprite.y += sprite.dy;
+
   if (sprite.x <= 15) {
     sprite.x = 15;
   }
@@ -62,13 +72,13 @@ export function update() {
       sprite.x = 124*4;
   }
 
-  onKey('x', function(e) {
+  onKey('z', function(e) {
     if (!shot) {
       shot = true;
       bullets.shoot(sprite.x, sprite.y);
     }
   });
-  onKey('x', function(e) {
+  onKey('z', function(e) {
     shot = false;
   }, {"handler": "keyup"}); 
 }

@@ -20,7 +20,7 @@ let debug = Text({
   font: '12px Arial',
   color: Globals.colors[7],
   x: 2 * 4,
-  y: 123 * 4,
+  y: 4 * 4,
   textAlign: 'left'
 });
 
@@ -67,8 +67,9 @@ load(tiles, robin, guard_img).then(function() {
 
       guards.spawn();
       guards.update();
-      message = 'Guards: ' + guards.sprites.length; 
-      message += ' Bullets: ' + bullets.sprites.length; 
+      message = 'X: ' + player.sprite.x; 
+      message += ' Y: ' + player.sprite.y; 
+      message += ' DY: ' + player.sprite.dy; 
       debug.text = message;
     },
     render: function() {
