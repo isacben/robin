@@ -59,6 +59,7 @@ load(tiles, robin, guard_img).then(function() {
 
       Globals.T += 1;
       player.update();
+      player.shoot();
       player.sprite.update();
       // player.control(canvas);
 
@@ -67,7 +68,7 @@ load(tiles, robin, guard_img).then(function() {
 
       guards.spawn();
       guards.update();
-      message = 'X: ' + player.sprite.x; 
+      message = 'DX: ' + player.sprite.dx; 
       message += ' Y: ' + player.sprite.y; 
       message += ' DY: ' + player.sprite.dy; 
       debug.text = message;

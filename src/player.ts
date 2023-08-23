@@ -10,7 +10,7 @@ initKeys();
 let shot = false;
 let friction = 0.85;
 let gravity = 0.2;
-let acc = 0.4;
+let acc = 0.3;
 let boost = 4;
 
 export let landed = false;
@@ -33,10 +33,14 @@ export function update() {
   sprite.dy += gravity;
   sprite.dx *= friction;
 
+  if (Math.abs(sprite.dx) < 0.01) {
+    sprite.dx = 0;
+  }
+
   // controls
   if (keyPressed('arrowleft')) {
-    sprite.dx -= acc;
     sprite.setScale(1, 1);
+    sprite.dx -= acc;
   }
   
   if (keyPressed('arrowright')) {
@@ -58,7 +62,7 @@ export function update() {
     if (tilemap.collide_map(sprite, "down")) {
       Globals.player_on_ground = true;
       sprite.dy = 0;
-      sprite.y -= (sprite.y + sprite.height) % 8;
+      sprite.y -= ((sprite.y + sprite.height + 1) % 8) - 1;
     }
   } else if (sprite.dy < 0) {
       if (tilemap.collide_map(sprite, "up")) {
@@ -72,19 +76,30 @@ export function update() {
 
     if (tilemap.collide_map(sprite, "left")) {
       sprite.dx = 0;
+
+      // wall correction
+      sprite.x -= ((sprite.x - 17 + 1) % 8) - 1;
     }
   } else if (sprite.dx > 0) {
     sprite.dx = clamp(-sprite.max_dx, sprite.max_dx, sprite.dx);
     
     if (tilemap.collide_map(sprite, "right")) {
       sprite.dx = 0;
+
+      // wall correction
+      sprite.x += ((sprite.width + 1) % 8) - 1;
     }
   }
 
   sprite.x += sprite.dx;
   sprite.y += sprite.dy;
+}
 
-  
+export function animate() {
+
+}
+
+export function shoot() {
   onKey('z', function(e) {
     if (!shot) {
       shot = true;
