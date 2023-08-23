@@ -10,16 +10,19 @@ initKeys();
 let shot = false;
 let friction = 0.85;
 let gravity = 0.2;
-let acc = 0.5;
+let acc = 0.4;
 let boost = 4;
 
 export let landed = false;
+
 // this is the player
 export let sprite = Sprite({
-  x: 64 * 4,
+  x: 8 * 4 + 16,
   y: 64 * 4,
   dx: 0,
   dy: 0,
+  max_dx: 2,
+  max_dy: 4,
   width: 32,
   height: 32,
   anchor: {x: 0.5, y: 0},
@@ -50,8 +53,7 @@ export function update() {
   // check collision up and down
   if (sprite.dy > 0) {
     Globals.player_on_ground = false;
-
-    sprite.dy = clamp(0, sprite.dy, 4);
+    sprite.dy = clamp(-sprite.max_dy, sprite.max_dy, sprite.dy);
 
     if (tilemap.collide_map(sprite, "down")) {
       Globals.player_on_ground = true;
@@ -64,18 +66,25 @@ export function update() {
       }
   }
 
+  // check collision left and right
+  if (sprite.dx < 0) {
+    sprite.dx = clamp(-sprite.max_dx, sprite.max_dx, sprite.dx);
+
+    if (tilemap.collide_map(sprite, "left")) {
+      sprite.dx = 0;
+    }
+  } else if (sprite.dx > 0) {
+    sprite.dx = clamp(-sprite.max_dx, sprite.max_dx, sprite.dx);
+    
+    if (tilemap.collide_map(sprite, "right")) {
+      sprite.dx = 0;
+    }
+  }
+
   sprite.x += sprite.dx;
   sprite.y += sprite.dy;
 
-  if (sprite.x <= 16) {
-    sprite.dx = 0;
-  }
-
-  if (sprite.x >= 120*4+16) {
-      sprite.dx = 0;
-      sprite.x = 120*4+16;
-  }
-
+  
   onKey('z', function(e) {
     if (!shot) {
       shot = true;

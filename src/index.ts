@@ -19,8 +19,8 @@ let debug = Text({
   text: message,
   font: '12px Arial',
   color: Globals.colors[7],
-  x: 2 * 4,
-  y: 4 * 4,
+  x: 8 * 4,
+  y: 8 * 4,
   textAlign: 'left'
 });
 
