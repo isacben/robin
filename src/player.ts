@@ -1,4 +1,4 @@
-import { Sprite, initKeys, keyPressed, onKey, offKey, imageAssets } from "kontra";
+import { Sprite, initKeys, keyPressed, onKey, offKey, imageAssets, clamp } from "kontra";
 import * as bullets from "./bullets";
 import * as tilemap from "./tilemap";
 import { Globals } from "./Globals";
@@ -18,6 +18,7 @@ export let landed = false;
 export let sprite = Sprite({
   x: 64 * 4,
   y: 64 * 4,
+  dx: 0,
   dy: 0,
   width: 32,
   height: 32,
@@ -32,12 +33,12 @@ export function update() {
   // controls
   if (keyPressed('arrowleft')) {
     sprite.dx -= acc;
-    sprite.scaleX = 1;
+    sprite.setScale(1, 1);
   }
   
   if (keyPressed('arrowright')) {
     sprite.dx += acc;
-    sprite.scaleX = -1;
+    sprite.setScale(-1, 1);
   }
   
   // jump
@@ -46,9 +47,11 @@ export function update() {
     Globals.player_on_ground = false;
   }
 
-    // check collision up and down
+  // check collision up and down
   if (sprite.dy > 0) {
     Globals.player_on_ground = false;
+
+    sprite.dy = clamp(0, sprite.dy, 4);
 
     if (tilemap.collide_map(sprite, "down")) {
       Globals.player_on_ground = true;
@@ -64,12 +67,13 @@ export function update() {
   sprite.x += sprite.dx;
   sprite.y += sprite.dy;
 
-  if (sprite.x <= 15) {
-    sprite.x = 15;
+  if (sprite.x <= 16) {
+    sprite.dx = 0;
   }
 
-  if (sprite.x >= 124*4) {
-      sprite.x = 124*4;
+  if (sprite.x >= 120*4+16) {
+      sprite.dx = 0;
+      sprite.x = 120*4+16;
   }
 
   onKey('z', function(e) {

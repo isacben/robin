@@ -25,15 +25,15 @@ export function collide_map(sprite: Sprite, direction: string) {
      y2=y+h-1;
   }
   else if (direction === "up") {
-     x1=x+8;
-     y1=y-8;
-     x2=x+w-8;
+     x1=(x-16)+4;
+     y1=y-4;
+     x2=(x-16)+w-4;
      y2=y;
   }
   else if (direction === "down") { 
-     x1=x;
+     x1=(x-16);
      y1=y+h;
-     x2=x+w;
+     x2=(x-16)+w;
      y2=y+h;
   }
 
