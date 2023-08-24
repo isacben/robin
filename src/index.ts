@@ -1,4 +1,4 @@
-import { init, Sprite, Text, GameLoop, TileEngine, load, imageAssets} from "kontra";
+import { init, Sprite, SpriteSheet, Text, GameLoop, TileEngine, load, imageAssets} from "kontra";
 import * as player from "./player";
 import * as bullets from "./bullets"; 
 import * as guards from "./guards";
@@ -47,8 +47,9 @@ load(tiles, robin, guard_img).then(function() {
     }]
   });
 
-  player.sprite.image = imageAssets[robin];
-
+  // initialize sprites with animations
+  player.init_sheet();
+    
   let loop = GameLoop({ 
     update: function() { 
       camera(10 + Globals.shake * (Math.floor(Math.random() * 2) - 1), 10 + Globals.shake * (Math.floor(Math.random() * 2) - 1));
@@ -61,18 +62,20 @@ load(tiles, robin, guard_img).then(function() {
       player.update();
       player.shoot();
       player.sprite.update();
+      player.animate();
+
       // player.control(canvas);
 
-      
       bullets.update();
 
       guards.spawn();
       guards.update();
-      message = 'DX: ' + player.sprite.dx; 
+      message = 'Frame: ' + player.sprite.currentAnimation.isStopped; 
       message += ' Y: ' + player.sprite.y; 
       message += ' DY: ' + player.sprite.dy; 
       debug.text = message;
     },
+
     render: function() {
       
       Globals.tileEngine.render();

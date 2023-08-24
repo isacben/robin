@@ -1,4 +1,4 @@
-import { Sprite, initKeys, keyPressed, onKey, offKey, imageAssets, clamp } from "kontra";
+import { Sprite, SpriteSheet, initKeys, keyPressed, onKey, offKey, imageAssets, clamp } from "kontra";
 import * as bullets from "./bullets";
 import * as tilemap from "./tilemap";
 import { Globals } from "./Globals";
@@ -15,6 +15,22 @@ let boost = 4;
 
 export let landed = false;
 
+// export let sprite_sheet = SpriteSheet({
+//   image: new Image(),
+//   frameWidth: 32,
+//   frameHeight: 32,
+//   animations: {
+//     idle: {
+//       frames: [1],
+//       loop: false,
+//     },
+//     walk: {
+//       frames: [0,1],
+//       frameRate: 30,
+//     }
+//   }
+// });
+
 // this is the player
 export let sprite = Sprite({
   x: 8 * 4 + 16,
@@ -28,6 +44,26 @@ export let sprite = Sprite({
   anchor: {x: 0.5, y: 0},
 });
 
+export function init_sheet() {
+  Globals.player_sheet = SpriteSheet({
+    image: imageAssets[robin], 
+    frameWidth: 32,
+    frameHeight: 32,
+    animations: {
+      idle: {
+        frames: [0, 1],
+        frameRate: 2,
+      },
+      run: {
+        frames: [2,3,4,3],
+        frameRate: 8,
+      }
+    }
+  });
+  
+  sprite.animations = Globals.player_sheet.animations;
+}
+
 export function update() {
   // physics
   sprite.dy += gravity;
@@ -39,13 +75,13 @@ export function update() {
 
   // controls
   if (keyPressed('arrowleft')) {
-    sprite.setScale(1, 1);
+    sprite.setScale(-1, 1);
     sprite.dx -= acc;
   }
   
   if (keyPressed('arrowright')) {
     sprite.dx += acc;
-    sprite.setScale(-1, 1);
+    sprite.setScale(1, 1);
   }
   
   // jump
@@ -96,7 +132,7 @@ export function update() {
 }
 
 export function animate() {
-
+  sprite.playAnimation('run');
 }
 
 export function shoot() {

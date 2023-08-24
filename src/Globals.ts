@@ -1,4 +1,4 @@
-import { Sprite, TileEngine } from "kontra";
+import { Sprite, SpriteSheet, TileEngine } from "kontra";
 
 export class Globals {
   // public static bullets: Sprite[] = [];
@@ -14,6 +14,7 @@ export class Globals {
   ]
 
   public static tileEngine: TileEngine;
+  public static player_sheet: SpriteSheet;
 
   public static level_1: number[] = [
     1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
