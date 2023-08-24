@@ -49,10 +49,11 @@ export function init_sheet() {
     image: imageAssets[robin], 
     frameWidth: 32,
     frameHeight: 32,
+    frameMargin: 4,
     animations: {
       idle: {
         frames: [0, 1],
-        frameRate: 2,
+        frameRate: 3,
       },
       run: {
         frames: [2,3,4,3],
