@@ -15,6 +15,8 @@ let boost = 4;
 
 let landed = false;
 let running = false;
+let jumping = false;
+let falling = false;
 let sliding = false;
 
 // this is the player
@@ -45,8 +47,14 @@ export function init_sheet() {
         frames: [2,3,4,3],
         frameRate: 8,
       },
+      jump: {
+        frames: [6],
+      },
+      fall: {
+        frames: [7],
+      },
       slide: {
-        frames:[0]
+        frames:[5]
       }
     }
   });
@@ -60,29 +68,31 @@ export function update() {
   sprite.dy += gravity;
   sprite.dx *= friction;
 
-  if (Math.abs(sprite.dx) < 0.01) {
+  if (Math.abs(sprite.dx) < 0.2) {
     sprite.dx = 0;
     sliding = false;
   }
 
   // controls
   if (keyPressed('arrowleft')) {
-    running = true;
+    if (!falling) {
+      running = true;
+    } else {
+      running = false;
+    }
     sprite.setScale(-1, 1);
     sprite.dx -= acc;
   }
   
   if (keyPressed('arrowright')) {
-    running = true;
+    if (!falling) {
+      running = true;
+    } else {
+      running = false;
+    }
     sprite.dx += acc;
     sprite.setScale(1, 1);
   }
-
-  // onKey(['arrowleft', 'arrowright'], function(e) {
-  //   running = false;
-  //   },
-  //   {"handler": "keyup"
-  // });
 
   // slide
   if (running &&
@@ -99,16 +109,23 @@ export function update() {
   }
 
   // check collision up and down
-  if (sprite.dy > 0) {
+  if (sprite.dy > 0) { // falling
+    falling = true;
     landed = false;
+    jumping = false;
+    // running = false; 
     sprite.dy = clamp(-sprite.max_dy, sprite.max_dy, sprite.dy);
 
     if (tilemap.collide_map(sprite, "down")) {
-      landed = true;
       sprite.dy = 0;
+      landed = true;
+      falling = false;
       sprite.y -= ((sprite.y + sprite.height + 1) % 8) - 1;
     }
   } else if (sprite.dy < 0) {
+      jumping = true;
+      running = false;
+
       if (tilemap.collide_map(sprite, "up")) {
         sprite.dy = 0;
       }
@@ -142,6 +159,10 @@ export function update() {
 export function animate() {
   if (running) {
     sprite.playAnimation('run');
+  } else if (jumping) {
+    sprite.playAnimation('jump');
+  } else if (falling) {
+    sprite.playAnimation('fall');
   } else if (sliding) {
     sprite.playAnimation('slide');
   } else {
