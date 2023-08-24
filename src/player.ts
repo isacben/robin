@@ -13,23 +13,9 @@ let gravity = 0.2;
 let acc = 0.3;
 let boost = 4;
 
-export let landed = false;
-
-// export let sprite_sheet = SpriteSheet({
-//   image: new Image(),
-//   frameWidth: 32,
-//   frameHeight: 32,
-//   animations: {
-//     idle: {
-//       frames: [1],
-//       loop: false,
-//     },
-//     walk: {
-//       frames: [0,1],
-//       frameRate: 30,
-//     }
-//   }
-// });
+let landed = false;
+let running = false;
+let sliding = false;
 
 // this is the player
 export let sprite = Sprite({
@@ -52,12 +38,15 @@ export function init_sheet() {
     frameMargin: 4,
     animations: {
       idle: {
-        frames: [0, 1],
+        frames: [0,1],
         frameRate: 3,
       },
       run: {
         frames: [2,3,4,3],
         frameRate: 8,
+      },
+      slide: {
+        frames:[0]
       }
     }
   });
@@ -66,38 +55,56 @@ export function init_sheet() {
 }
 
 export function update() {
+
   // physics
   sprite.dy += gravity;
   sprite.dx *= friction;
 
   if (Math.abs(sprite.dx) < 0.01) {
     sprite.dx = 0;
+    sliding = false;
   }
 
   // controls
   if (keyPressed('arrowleft')) {
+    running = true;
     sprite.setScale(-1, 1);
     sprite.dx -= acc;
   }
   
   if (keyPressed('arrowright')) {
+    running = true;
     sprite.dx += acc;
     sprite.setScale(1, 1);
   }
+
+  // onKey(['arrowleft', 'arrowright'], function(e) {
+  //   running = false;
+  //   },
+  //   {"handler": "keyup"
+  // });
+
+  // slide
+  if (running &&
+      !keyPressed('arrowleft') &&
+      !keyPressed('arrowright')) {
+    running = false;
+    sliding = true;
+  }
   
   // jump
-  if (keyPressed('x') && Globals.player_on_ground) {
+  if (keyPressed('x') && landed) {
     sprite.dy -= boost;
-    Globals.player_on_ground = false;
+    landed = false;
   }
 
   // check collision up and down
   if (sprite.dy > 0) {
-    Globals.player_on_ground = false;
+    landed = false;
     sprite.dy = clamp(-sprite.max_dy, sprite.max_dy, sprite.dy);
 
     if (tilemap.collide_map(sprite, "down")) {
-      Globals.player_on_ground = true;
+      landed = true;
       sprite.dy = 0;
       sprite.y -= ((sprite.y + sprite.height + 1) % 8) - 1;
     }
@@ -133,7 +140,13 @@ export function update() {
 }
 
 export function animate() {
-  sprite.playAnimation('run');
+  if (running) {
+    sprite.playAnimation('run');
+  } else if (sliding) {
+    sprite.playAnimation('slide');
+  } else {
+    sprite.playAnimation('idle');
+  }
 }
 
 export function shoot() {
