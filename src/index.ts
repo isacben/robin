@@ -1,4 +1,4 @@
-import { init, Sprite, SpriteSheet, Text, GameLoop, TileEngine, load, imageAssets} from "kontra";
+import { init, Text, GameLoop, TileEngine, load, imageAssets} from "kontra";
 import * as player from "./player";
 import * as bullets from "./bullets"; 
 import * as guards from "./guards";
@@ -8,6 +8,7 @@ import { Globals } from "./Globals";
 import tiles from './img/tiles.png';
 import robin from './img/robin.png';
 import guard_img from './img/guard.png';
+import arrow from './img/arrow.png';
 
 let { canvas } = init();
 
@@ -24,7 +25,7 @@ let debug = Text({
   textAlign: 'left'
 });
 
-load(tiles, robin, guard_img).then(function() {
+load(arrow, tiles, robin, guard_img).then(function() {
   Globals.tileEngine = TileEngine({
     // tile size
     tilewidth: 32,

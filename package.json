@@ -4,6 +4,7 @@
   "description": "Template for js13games projects",
   "scripts": {
     "webpack": "webpack --mode development",
+    "build": "webpack -p --mode=production",
     "webpack:w": "webpack --mode development --watch",
     "start": "webpack serve --mode development --open"
   },

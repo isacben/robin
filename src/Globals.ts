@@ -1,7 +1,6 @@
 import { Sprite, SpriteSheet, TileEngine } from "kontra";
 
 export class Globals {
-  // public static bullets: Sprite[] = [];
   public static T: number = 0;
   public static shake: number = 0;
   public static is_shaking = false;

@@ -1,4 +1,4 @@
-import { Sprite, SpriteSheet, initKeys, keyPressed, onKey, offKey, imageAssets, clamp } from "kontra";
+import { Sprite, SpriteSheet, initKeys, keyPressed, onKey, imageAssets, clamp } from "kontra";
 import * as bullets from "./bullets";
 import * as tilemap from "./tilemap";
 import { Globals } from "./Globals";
@@ -13,11 +13,7 @@ let gravity = 0.2;
 let acc = 0.3;
 let boost = 4;
 
-let landed = false;
-let running = false;
-let jumping = false;
-let falling = false;
-let sliding = false;
+let landed=false, running=false, jumping=false, falling=false, sliding=false;
 
 // this is the player
 export let sprite = Sprite({
@@ -174,7 +170,7 @@ export function shoot() {
   onKey('z', function(e) {
     if (!shot) {
       shot = true;
-      bullets.shoot(sprite.x, sprite.y);
+      bullets.shoot(sprite.x, sprite.y, sprite.scaleX);
     }
   });
   onKey('z', function(e) {
