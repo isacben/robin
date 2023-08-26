@@ -1,7 +1,7 @@
 import { Sprite, collides, imageAssets } from "kontra";
 import * as player from "./player";
 import * as bullets from "./bullets";
-import { Globals } from "./Globals";
+import { Globals as g } from "./Globals";
 import guard_img from './img/guard.png';
 
 export let sprites: Sprite[] = [];
@@ -24,18 +24,20 @@ export function update() {
     if (collides(guard, player.sprite)) {
       destroy(i);
       // player.sprite.color = Globals.colors[Math.floor(Math.random() * 14) + 1];
-      Globals.shake = 9;
+      g.shake = 9;
     }
   });
 }
 
 export function spawn() {
-  if (Globals.T % 30 === 0) {
+  if (g.T % 30 === 0) {
     let guard = Sprite({
       x: Math.floor(Math.random() * 120*4) + 1,
       y: -8*4,
-      width: 32,
-      height: 32,
+      width: 8,
+      height: 8,
+      scaleX: 4,
+      scaleY: 4,
       image: imageAssets[guard_img],
       dy: 2 
     });

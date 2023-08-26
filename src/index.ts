@@ -3,7 +3,7 @@ import * as player from "./player";
 import * as bullets from "./bullets"; 
 import * as guards from "./guards";
 
-import { Globals } from "./Globals";
+import { Globals as g } from "./Globals";
 
 import tiles from './img/tiles.png';
 import robin from './img/robin.png';
@@ -19,14 +19,14 @@ let message: string = "debug...";
 let debug = Text({
   text: message,
   font: '12px Arial',
-  color: Globals.colors[7],
+  color: '#FFF1E8',
   x: 8 * 4,
   y: 8 * 4,
   textAlign: 'left'
 });
 
 load(arrow, tiles, robin, guard_img).then(function() {
-  Globals.tileEngine = TileEngine({
+  g.te = TileEngine({
     // tile size
     tilewidth: 32,
     tileheight: 32,
@@ -44,7 +44,7 @@ load(arrow, tiles, robin, guard_img).then(function() {
     // layer object
     layers: [{
       name: 'ground',
-      data: Globals.level_1
+      data: g.l1
     }]
   });
 
@@ -53,13 +53,13 @@ load(arrow, tiles, robin, guard_img).then(function() {
     
   let loop = GameLoop({ 
     update: function() { 
-      camera(10 + Globals.shake * (Math.floor(Math.random() * 2) - 1), 10 + Globals.shake * (Math.floor(Math.random() * 2) - 1));
+      camera(10 + g.shake * (Math.floor(Math.random() * 2) - 1), 10 + g.shake * (Math.floor(Math.random() * 2) - 1));
 
-      if (Globals.shake > 0) {
-        Globals.shake *= 0.5;
+      if (g.shake > 0) {
+        g.shake *= 0.5;
       }
 
-      Globals.T += 1;
+      g.T += 1;
       player.update();
       player.shoot();
       player.sprite.update();
@@ -79,7 +79,7 @@ load(arrow, tiles, robin, guard_img).then(function() {
 
     render: function() {
       
-      Globals.tileEngine.render();
+      g.te.render();
       player.sprite.render();
       bullets.sprites.forEach(bullet => {
         bullet.render();

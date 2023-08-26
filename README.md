@@ -2,6 +2,16 @@
 
 Robin is a platformer video game. It is my entry to the JS13KGAME game jam 2023, with the topic 13th Century.
 
+npm run build
+rollup dist/main.js --format iife --file dist/main.js
+
+
+
+npm install --save html-minimizer-webpack-plugin
+npm install rollup --save
+npm install --save-dev webpack-bundle-analyzer
+npm install clean-webpack-plugin --save-dev
+
 ### August 24th, 2023
 
 Today I finished the implementation of the player's movement and its animations.

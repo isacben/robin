@@ -13,7 +13,11 @@ let gravity = 0.2;
 let acc = 0.3;
 let boost = 4;
 
-let landed=false, running=false, jumping=false, falling=false, sliding=false;
+let landed = false;
+let running = false;
+let jumping = false;
+let falling = false;
+let sliding = false;
 
 // this is the player
 export let sprite = Sprite({
@@ -29,11 +33,11 @@ export let sprite = Sprite({
 });
 
 export function init_sheet() {
-  Globals.player_sheet = SpriteSheet({
+  Globals.pss = SpriteSheet({
     image: imageAssets[robin], 
-    frameWidth: 32,
-    frameHeight: 32,
-    frameMargin: 4,
+    frameWidth: 8,
+    frameHeight: 8,
+    frameMargin: 1,
     animations: {
       idle: {
         frames: [0,1],
@@ -55,7 +59,7 @@ export function init_sheet() {
     }
   });
   
-  sprite.animations = Globals.player_sheet.animations;
+  sprite.animations = Globals.pss.animations;
 }
 
 export function update() {
@@ -178,8 +182,8 @@ export function shoot() {
   }, {"handler": "keyup"}); 
 }
 
-export function control(canvas: HTMLCanvasElement) {
+// export function control(canvas: HTMLCanvasElement) {
   // if (sprite.x > canvas.width) {
     // sprite.x = -sprite.width;
   // }
-}
+// }

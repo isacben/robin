@@ -1,5 +1,5 @@
-import { Sprite, TileEngine } from "kontra";
-import { Globals } from "./Globals";
+import { Sprite } from "kontra";
+import { Globals as g } from "./Globals";
 
 export function collide_map(sprite: Sprite, direction: string) {
   let x = sprite.x - 16;
@@ -17,30 +17,27 @@ export function collide_map(sprite: Sprite, direction: string) {
    y1=y;
    x2=x;
    y2=y+h-4;
-  }
-  else if (direction === "right") { 
+  } else if (direction === "right") { 
      x1=x+w;
      y1=y;
      x2=x+w+4;
      y2=y+h-4;
-  }
-  else if (direction === "up") {
+  } else if (direction === "up") {
      x1=x+4;
      y1=y-4;
      x2=x+w-4;
      y2=y;
-  }
-  else if (direction === "down") { 
+  } else if (direction === "down") { 
      x1=x;
      y1=y+h;
      x2=x+w;
      y2=y+h;
   }
 
-  if (Globals.tileEngine.tileAtLayer('ground', {x: x1, y: y1}) > 0 ||
-    Globals.tileEngine.tileAtLayer('ground', {x: x1, y: y2}) > 0 ||
-    Globals.tileEngine.tileAtLayer('ground', {x: x2, y: y1}) > 0 ||
-    Globals.tileEngine.tileAtLayer('ground', {x: x2, y: y2}) > 0) {
+  if (g.te.tileAtLayer('ground', {x: x1, y: y1}) > 0 ||
+    g.te.tileAtLayer('ground', {x: x1, y: y2}) > 0 ||
+    g.te.tileAtLayer('ground', {x: x2, y: y1}) > 0 ||
+    g.te.tileAtLayer('ground', {x: x2, y: y2}) > 0) {
       return true;
   } else {
     return false;

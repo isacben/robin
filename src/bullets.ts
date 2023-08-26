@@ -1,5 +1,4 @@
 import { Sprite, imageAssets } from "kontra";
-import { Globals } from "./Globals";
 
 import arrow from './img/arrow.png';
 
@@ -21,9 +20,10 @@ export function shoot(x: number, y: number, dir: number) {
     x: x,
     y: y,
     dx: 6 * dir,
-    scaleX: dir,
-    width: 32,
-    height: 32,
+    scaleX: dir*4,
+    scaleY: 4,
+    width: 8,
+    height: 8,
     image: imageAssets[arrow],
     // custom properties
     ttl: 200,
