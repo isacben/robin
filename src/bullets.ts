@@ -1,6 +1,6 @@
 import { Sprite, imageAssets } from "kontra";
 
-import arrow from './img/arrow.png';
+import arrow_img from './public/arrow.png';
 
 export let sprites: Sprite[] = [];
 
@@ -24,7 +24,7 @@ export function shoot(x: number, y: number, dir: number) {
     scaleY: 4,
     width: 8,
     height: 8,
-    image: imageAssets[arrow],
+    image: imageAssets[arrow_img],
     // custom properties
     ttl: 200,
   });

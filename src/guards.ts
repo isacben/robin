@@ -2,7 +2,7 @@ import { Sprite, collides, imageAssets } from "kontra";
 import * as player from "./player";
 import * as bullets from "./bullets";
 import { Globals as g } from "./Globals";
-import guard_img from './img/guard.png';
+import guard_img from './public/guard.png';
 
 export let sprites: Sprite[] = [];
 
@@ -14,7 +14,7 @@ export function update() {
       destroy(i);
     }
 
-    bullets.sprites.forEach((bullet, j) => {
+    bullets.sprites.forEach((bullet) => {
       if (collides(guard, bullet)) {
         destroy(i);
         bullet.ttl = 0;

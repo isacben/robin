@@ -5,10 +5,10 @@ import * as guards from "./guards";
 
 import { Globals as g } from "./Globals";
 
-import tiles from './img/tiles.png';
-import robin from './img/robin.png';
-import guard_img from './img/guard.png';
-import arrow from './img/arrow.png';
+import tiles from './public/tiles.png';
+import robin from './public/robin.png';
+import guard_img from './public/guard.png';
+import arrow_img from './public/arrow.png';
 
 let { canvas } = init();
 
@@ -25,7 +25,8 @@ let debug = Text({
   textAlign: 'left'
 });
 
-load(arrow, tiles, robin, guard_img).then(function() {
+
+load(tiles, robin, guard_img, arrow_img).then(function() {
   g.te = TileEngine({
     // tile size
     tilewidth: 32,
@@ -94,7 +95,9 @@ load(arrow, tiles, robin, guard_img).then(function() {
   });
 
   loop.start();
-})
+}).catch(function(err) {
+  console.log(err);
+});
 
 
 function camera(left: number, top: number) {

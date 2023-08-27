@@ -3,7 +3,7 @@ import * as bullets from "./bullets";
 import * as tilemap from "./tilemap";
 import { Globals } from "./Globals";
 
-import robin from "./img/robin.png";
+import robin from "./public/robin.png";
 
 initKeys();
 
@@ -171,13 +171,13 @@ export function animate() {
 }
 
 export function shoot() {
-  onKey('z', function(e) {
+  onKey('z', function() {
     if (!shot) {
       shot = true;
       bullets.shoot(sprite.x, sprite.y, sprite.scaleX);
     }
   });
-  onKey('z', function(e) {
+  onKey('z', function() {
     shot = false;
   }, {"handler": "keyup"}); 
 }
